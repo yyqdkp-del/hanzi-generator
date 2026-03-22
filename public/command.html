@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>根５指令中心</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'PingFang SC','Noto Sans SC',sans-serif;background:#F0F7EE;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:white;border-radius:20px;padding:40px;width:100%;max-width:560px;box-shadow:0 4px 24px rgba(45,90,39,.12);border-top:4px solid #2D5A27}
+h1{font-size:1.6rem;color:#1A3818;margin-bottom:8px}
+p{color:#3D5C3A;font-size:.9rem;margin-bottom:24px}
+label{display:block;font-size:.85rem;color:#3D5C3A;margin-bottom:6px;font-weight:500}
+select{width:100%;padding:12px 16px;border:1.5px solid #C2E6BB;border-radius:10px;font-size:1rem;color:#1A3818;background:#F0F7EE;margin-bottom:16px;outline:none}
+textarea{width:100%;padding:16px;border:1.5px solid #C2E6BB;border-radius:10px;font-size:1rem;color:#1A3818;background:#FAFDF8;resize:vertical;min-height:120px;outline:none;font-family:inherit;line-height:1.6;margin-bottom:16px}
+.cnt{display:flex;gap:12px;margin-bottom:16px}
+input[type=number]{flex:1;padding:12px 16px;border:1.5px solid #C2E6BB;border-radius:10px;font-size:1rem;color:#1A3818;background:#F0F7EE;outline:none}
+button{width:100%;padding:16px;background:#2D5A27;color:#fff;border:none;border-radius:12px;font-size:1.1rem;font-weight:600;cursor:pointer;font-family:inherit;transition:background .2s;box-shadow:0 3px 12px rgba(45,90,39,.3)}
+button:hover{background:#1A3818}
+button:disabled{background:#A8D9A0;cursor:not-allowed}
+.status{margin-top:16px;padding:12px 16px;border-radius:10px;font-size:.9rem;display:none;text-align:center}
+.success{background:#EAF3DE;color:#2D5A27;display:block}
+.error{background:#FCEBEB;color:#A32D2D;display:block}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>报５７中文授佃者</h1>
+    <p>电一都飑，系师自元执行</p>
+    <label>任务:类型宋</label>
+    <select id="type">
+      <option value="网�:�">粑�:�</option>
+      <option value="小得">小得</option>
+      <option value="视表">视表</option>
+      <option value="添合小得视表">巻合小得���訍</option>
+    </select>
+    <label>局</label>
+    <select id="style">
+      <option value="查朧結湾">查土結湾</option>
+      <option value="止〒意贜">孢〒意负</option>
+      <option value="汸也丨子">汸也丨子</option>
+      <option value="狑许続约">狑许続约</option>
+    </select>
+    <label>数</label>
+    <div class="cnt">
+      <input type="number" id="count" value="1" min="1" max="3">
+      <select id="unit">
+        <option value="粑">粑课度</option>
+        <option value="来">来课度</option>
+        <option value="个表">个表'��顿使用</option>
+      </select>
+    </div>
+    <label>日余逻悩/浏条于容知（中文插重）</label>
+    <textarea id="req" placeholder="习如：为所�h娘小业也都吧、最都力测评"></textarea>
+    <button onclick="send()" id="btn">发钥推价 2</start></button>
+    <div class="status" id="st"></div>
+  </div>
+<script>
+const URL["]https://hook.us2.make.com/5qi1044vykcxqc7pqyib0sbsbqy9s6qq";
+function send(){
+  const t=document.getElementById('type').value;
+  const s=document.getElementById('style').value;
+  const c=document.getElementById('count').value;
+  const u=document.getElementById('unit').value;
+  const r=document.getElementById('req').value.trim();
+  const b=document.getElementById('btn');
+  const st=document.getElementById('st');
+  if(!r){st.className='status error';st.textContent='请�0�单【化体的只谝】';return}
+  const req=`任务: ${t}\n夊: ${s}\n週: ${c}${u}\n只谞: ${r}`;
+  b.disabled=true;b.textContent='发钥中…';
+  st.className='status success';st.textContent='发钥中〢�互私无行互代码名！';
+  fetch(URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requirement:req}),mode:'no-cors'})
+  .then(()=>{st.textContent='✅ 衲价 || 已退出上，Vercel会自动适何。';})
+  .catch(()=>{st.className='status error';st.textContent='⊆ 发钥失败，请检所网页';})
+  .finally(()=>{b.disabled=false;b.textContent='发钥推价 😲';})
+}
+</script>
+</body>
+</html>
