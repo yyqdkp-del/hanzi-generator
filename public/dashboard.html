@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>根·陪伴系统 | 妈妈仪表盘</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=ZCOOL+KuaiLe&display=swap');
+    body { background-color: #F8FAFC; font-family: 'Nunito', -apple-system, sans-serif; }
+    .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.5); }
+    .title-font { font-family: 'ZCOOL KuaiLe', cursive; }
+  </style>
+</head>
+<body class="flex justify-center min-h-screen text-slate-700">
+  <div class="w-full max-w-md bg-gradient-to-br from-blue-50 via-white to-pink-50 min-h-screen relative overflow-hidden pb-20 shadow-2xl">
+    <div class="px-6 pt-12 pb-4 flex justify-between items-center">
+      <div>
+        <h2 class="text-sm text-slate-500 font-bold tracking-wider mb-1">🌤️ 清迈 · 早安妈妈</h2>
+        <div class="flex items-center gap-2 bg-white/60 px-3 py-1.5 rounded-full shadow-sm border border-white">
+          <span class="text-sm font-bold text-sky-700">👦🏻 威廉 (6岁)</span>
+          <span class="text-xs text-slate-300">|</span>
+          <span class="text-sm font-bold text-slate-400">👶🏻 诺亚 (2.5岁)</span>
+        </div>
+      </div>
+      <div class="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center text-xl border-2 border-pink-100">👩🏻</div>
+    </div>
+    <div class="px-6 mb-6">
+      <div class="glass-card rounded-3xl p-5 shadow-sm flex items-center gap-5">
+        <div class="relative w-20 h-20 flex-shrink-0">
+          <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" stroke="#F1F5F9" stroke-width="8" fill="none"/>
+            <circle cx="50" cy="50" r="40" stroke="#38BDF8" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="183"/>
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <span class="text-lg font-black text-sky-500">27<span class="text-xs">%</span></span>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-700 mb-1">中文根系正在变强 🌱</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">本周已掌握 12 个核心汉字，超越了 85% 的同龄人。</p>
+        </div>
+      </div>
+    </div>
+    <div class="px-6 mb-8">
+      <div class="bg-white rounded-[32px] p-6 shadow-xl shadow-sky-100/50 border border-sky-50 relative">
+        <div class="absolute -top-3 right-6 bg-pink-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">约 10 分钟</div>
+        <h3 class="title-font text-2xl text-slate-800 mb-2 mt-2">象：大象营的积木</h3>
+        <p class="text-sm text-slate-500 mb-5">第 4 天 · 乐高汉字拆解</p>
+        <div class="bg-slate-50 rounded-2xl p-4 mb-6 border border-slate-100">
+          <div class="flex items-center gap-2 mb-3"><span class="bg-sky-100 text-sky-600 text-[10px] font-black px-2 py-0.5 rounded">大宝主线</span><span class="text-sm font-bold text-slate-700">用屏幕拆解"象"的腿和牙</span></div>
+          <div class="flex items-center gap-2"><span class="bg-pink-100 text-pink-600 text-[10px] font-black px-2 py-0.5 rounded">小宝支线</span><span class="text-sm font-bold text-slate-700">给大象耳朵涂色 / 模仿叫声</span></div>
+        </div>
+        <button id="trigger-make-btn" class="w-full bg-gradient-to-r from-sky-400 to-blue-500 text-white font-bold text-lg py-4 rounded-2xl shadow-lg shadow-blue-200 hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
+          <span>▶️</span> 开启今天的躺赢陪伴
+        </button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/5qi1044vykcxqc7pqyib0sbsbqy9s6qq';
+    const btn = document.getElementById('trigger-make-btn');
+    btn.addEventListener('click', async () => {
+      btn.innerHTML = '<span>⏳</span> 正在召唤 AI 团队...';
+      btn.disabled = true;
+      const payload = {
+        requirement: "任务类型: 网站\n需求: 根据今日汉字象，生成学习内容更新首页",
+        action: "generate_daily_task",
+        target_character: "象"
+      };
+      try {
+        const response = await fetch(MAKE_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (response.ok) {
+          btn.innerHTML = '<span>✅</span> 剧本已送达！';
+          btn.classList.replace('from-sky-400', 'from-emerald-400');
+          btn.classList.replace('to-blue-500', 'to-green-500');
+        } else {
+          throw new Error('Make 接收失败');
+        }
+      } catch (error) {
+        btn.innerHTML = '<span>❌</span> 连接断开，点击重试';
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
